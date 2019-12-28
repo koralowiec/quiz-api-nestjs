@@ -26,4 +26,7 @@ export class Option extends BaseEntity {
     },
   )
   question: Question;
+
+  @Column()
+  questionId: number;
 }
