@@ -1,26 +1,29 @@
 import {
   Entity,
+  BaseEntity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
-  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Question } from '../questions/question.entity';
 
 @Entity()
-export class Quiz extends BaseEntity {
+export class Option extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 120 })
-  title: string;
-
   @Column('text')
-  description: string;
+  text: string;
 
-  @OneToMany(
+  @Column()
+  isCorrect: boolean;
+
+  @ManyToOne(
     type => Question,
-    question => question.quiz,
+    question => question.options,
+    {
+      onDelete: 'CASCADE',
+    },
   )
-  questions: Question[];
+  question: Question;
 }
