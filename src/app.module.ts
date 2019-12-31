@@ -9,6 +9,7 @@ import * as path from 'path';
 import { QuestionsModule } from './questions/questions.module';
 import { RouterModule } from 'nest-router';
 import { routes } from './routes';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { routes } from './routes';
     QuizzesModule,
     QuestionsModule,
     OptionsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

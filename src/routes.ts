@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { QuizzesModule } from './quizzes/quizzes.module';
 import { QuestionsModule } from './questions/questions.module';
 import { OptionsModule } from './options/options.module';
+import { AuthModule } from './auth/auth.module';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,10 @@ export const routes: Routes = [
             ],
           },
         ],
+      },
+      {
+        path: '/auth',
+        module: AuthModule,
       },
     ],
   },
