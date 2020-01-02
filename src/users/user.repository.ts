@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { NotFoundException, ConflictException } from '@nestjs/common';
-import { TypeOrmErrorCodes } from './../constants/typeorm-error-codes';
+import { TypeOrmErrorCodes } from '../constants/typeorm-error-codes';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {

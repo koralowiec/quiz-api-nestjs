@@ -10,6 +10,7 @@ import { QuestionsModule } from './questions/questions.module';
 import { RouterModule } from 'nest-router';
 import { routes } from './routes';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './auth/auth.module';
     QuestionsModule,
     OptionsModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
