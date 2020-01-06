@@ -6,26 +6,30 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { Question } from '../questions/question.entity';
+import { Attempt } from '../attempts/attempt.entity';
+import { Question } from 'src/questions/question.entity';
 import { CheckedOption } from '../checked-options/checked-option.entity';
 
 @Entity()
-export class Option extends BaseEntity {
+export class Answer extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
-  text: string;
+  @Column()
+  correct: boolean;
+
+  @ManyToOne(
+    type => Attempt,
+    attempt => attempt.answers,
+  )
+  attempt: Attempt;
 
   @Column()
-  isCorrect: boolean;
+  attemptId: number;
 
   @ManyToOne(
     type => Question,
-    question => question.options,
-    {
-      onDelete: 'CASCADE',
-    },
+    question => question.answers,
   )
   question: Question;
 
@@ -34,7 +38,7 @@ export class Option extends BaseEntity {
 
   @OneToMany(
     type => CheckedOption,
-    checkedOption => checkedOption.option,
+    checkedOption => checkedOption.answer,
   )
   checkedOptions: CheckedOption[];
 }

@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Question } from '../questions/question.entity';
+import { Attempt } from '../attempts/attempt.entity';
 
 @Entity()
 export class Quiz extends BaseEntity {
@@ -23,4 +24,10 @@ export class Quiz extends BaseEntity {
     question => question.quiz,
   )
   questions: Question[];
+
+  @OneToMany(
+    type => Attempt,
+    attempt => attempt.quiz,
+  )
+  attempts: Attempt[];
 }

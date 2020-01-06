@@ -1,41 +1,42 @@
 import {
-  BaseEntity,
   Entity,
+  BaseEntity,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
   Column,
   OneToMany,
   ManyToOne,
 } from 'typeorm';
-import { Option } from '../options/option.entity';
+import { User } from '../users/user.entity';
 import { Quiz } from '../quizzes/quiz.entity';
 import { Answer } from '../answers/answer.entity';
 
 @Entity()
-export class Question extends BaseEntity {
+export class Attempt extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
-  description: string;
+  @CreateDateColumn()
+  createdDate: Date;
 
-  @OneToMany(
-    type => Option,
-    option => option.question,
+  @Column()
+  passed: boolean;
+
+  @ManyToOne(
+    type => User,
+    user => user.attempts,
   )
-  options: Option[];
+  user: User;
 
   @ManyToOne(
     type => Quiz,
-    quiz => quiz.questions,
+    quiz => quiz.attempts,
   )
   quiz: Quiz;
 
-  @Column()
-  quizId: number;
-
   @OneToMany(
     type => Answer,
-    answer => answer.question,
+    answer => answer.attempt,
   )
   answers: Answer[];
 }

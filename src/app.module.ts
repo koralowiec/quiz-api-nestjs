@@ -11,6 +11,9 @@ import { RouterModule } from 'nest-router';
 import { routes } from './routes';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { AttemptsModule } from './attempts/attempts.module';
+import { AnswersModule } from './answers/answers.module';
+import { CheckedOptionsModule } from './checked-options/checked-options.module';
 
 @Module({
   imports: [
@@ -29,6 +32,9 @@ import { UsersModule } from './users/users.module';
     OptionsModule,
     AuthModule,
     UsersModule,
+    AttemptsModule,
+    AnswersModule,
+    CheckedOptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
