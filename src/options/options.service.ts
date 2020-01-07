@@ -35,6 +35,15 @@ export class OptionsService {
     });
   }
 
+  async getOptionsByCorrectness(
+    questionId: number,
+    isCorrect: boolean,
+  ): Promise<Option[]> {
+    return await this.optionRepository.find({
+      where: { questionId, isCorrect },
+    });
+  }
+
   async getOptionById(questionId: number, optionId: number): Promise<Option> {
     const found = await this.optionRepository.findOne({
       where: { questionId, id: optionId },

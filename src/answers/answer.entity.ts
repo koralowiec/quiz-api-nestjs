@@ -15,7 +15,9 @@ export class Answer extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   correct: boolean;
 
   @ManyToOne(

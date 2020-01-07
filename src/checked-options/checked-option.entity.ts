@@ -6,7 +6,6 @@ import {
   Column,
 } from 'typeorm';
 import { Answer } from '../answers/answer.entity';
-import { type } from 'os';
 import { Option } from '../options/option.entity';
 
 @Entity()

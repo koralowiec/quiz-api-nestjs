@@ -19,7 +19,9 @@ export class Attempt extends BaseEntity {
   @CreateDateColumn()
   createdDate: Date;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   passed: boolean;
 
   @ManyToOne(
@@ -28,11 +30,17 @@ export class Attempt extends BaseEntity {
   )
   user: User;
 
+  @Column()
+  userId: number;
+
   @ManyToOne(
     type => Quiz,
     quiz => quiz.attempts,
   )
   quiz: Quiz;
+
+  @Column()
+  quizId: number;
 
   @OneToMany(
     type => Answer,

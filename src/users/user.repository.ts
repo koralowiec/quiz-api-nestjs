@@ -24,7 +24,7 @@ export class UserRepository extends Repository<User> {
     } catch (error) {
       if (error.code === TypeOrmErrorCodes.DuplicateKeyVale) {
         throw new ConflictException(
-          `User with username: ${user.username} already exsits`,
+          `User with username: ${user.username} already exists`,
         );
       }
     }

@@ -9,5 +9,6 @@ import { OptionRepository } from './option.repository';
   imports: [TypeOrmModule.forFeature([Option, OptionRepository])],
   providers: [OptionsService],
   controllers: [OptionsController],
+  exports: [OptionsService],
 })
 export class OptionsModule {}
