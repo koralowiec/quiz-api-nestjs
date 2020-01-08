@@ -27,7 +27,6 @@ export class AnswersService {
     return answer;
   }
 
-  // TODO forbid saving multiple answers to the same question in the same attempt
   async saveAnswerWithCheckedOptions(
     attemptId: number,
     createAnswerWithCheckedOptionsDto: CreateAnswerWithCheckedOptionsDto,

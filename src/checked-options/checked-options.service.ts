@@ -17,15 +17,44 @@ export class CheckedOptionsService {
     checkedOptionsDto: CreateCheckedOptionDto[],
     correctOptionsDto: CorrectOptionDto[],
   ): Promise<{ areAllOptionsCorrect: boolean }> {
-    const numberOfCorrectOptions = correctOptionsDto.length;
+    const {
+      checkedOptionsToCreate,
+      areAllOptionsCorrect,
+    } = this.compareCheckedOptionsWithCorrectOnesAndPrepareToBeSaved(
+      checkedOptionsDto,
+      correctOptionsDto,
+    );
 
+    await this.checkedOptionRepository.createCheckedOptions(
+      answerId,
+      checkedOptionsToCreate,
+    );
+
+    return { areAllOptionsCorrect };
+  }
+
+  private compareCheckedOptionsWithCorrectOnesAndPrepareToBeSaved(
+    checkedOptionDtos: CreateCheckedOptionDto[],
+    correctOptionDtos: CorrectOptionDto[],
+  ): {
+    areAllOptionsCorrect: boolean;
+    checkedOptionsToCreate: Array<{
+      createCheckedOptionDto: CreateCheckedOptionDto;
+      correct: boolean;
+    }>;
+  } {
     let areAllOptionsCorrect = true;
-    if (checkedOptionsDto.length !== numberOfCorrectOptions) {
+    if (checkedOptionDtos.length !== correctOptionDtos.length) {
       areAllOptionsCorrect = false;
     }
 
-    for (const checkedOption of checkedOptionsDto) {
-      const correctOptionWithIdOfCheckedOption = correctOptionsDto.find(
+    const checkedOptionsToCreate: Array<{
+      createCheckedOptionDto: CreateCheckedOptionDto;
+      correct: boolean;
+    }> = [];
+
+    for (const checkedOption of checkedOptionDtos) {
+      const correctOptionWithIdOfCheckedOption = correctOptionDtos.find(
         option => checkedOption.optionId === option.correctOptionId,
       );
 
@@ -33,15 +62,15 @@ export class CheckedOptionsService {
         areAllOptionsCorrect = false;
       }
 
-      // TODO save all checked options instead of saving one by one
-      await this.checkedOptionRepository.createCheckedOption(
-        answerId,
-        checkedOption,
-        correctOptionWithIdOfCheckedOption ? true : false,
-      );
+      checkedOptionsToCreate.push({
+        createCheckedOptionDto: checkedOption,
+        correct: correctOptionWithIdOfCheckedOption ? true : false,
+      });
     }
-
-    return { areAllOptionsCorrect };
+    return {
+      areAllOptionsCorrect,
+      checkedOptionsToCreate,
+    };
   }
 
   async getCheckedOptions(answerId: number): Promise<CheckedOption[]> {

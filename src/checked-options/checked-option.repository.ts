@@ -9,13 +9,42 @@ export class CheckedOptionRepository extends Repository<CheckedOption> {
     createCheckedOptionDto: CreateCheckedOptionDto,
     correct: boolean,
   ): Promise<CheckedOption> {
-    const { optionId } = createCheckedOptionDto;
+    const checkedOption = this.createCheckedOptionObject(answerId, {
+      createCheckedOptionDto,
+      correct,
+    });
+
+    return checkedOption.save();
+  }
+
+  private createCheckedOptionObject(
+    answerId: number,
+    checkedOptionToCreate: {
+      createCheckedOptionDto: CreateCheckedOptionDto;
+      correct: boolean;
+    },
+  ): CheckedOption {
+    const { optionId } = checkedOptionToCreate.createCheckedOptionDto;
 
     const checkedOption = new CheckedOption();
     checkedOption.answerId = answerId;
     checkedOption.optionId = optionId;
-    checkedOption.correct = correct;
+    checkedOption.correct = checkedOptionToCreate.correct;
 
-    return checkedOption.save();
+    return checkedOption;
+  }
+
+  async createCheckedOptions(
+    answerId: number,
+    checkedOptionsToCreate: Array<{
+      createCheckedOptionDto: CreateCheckedOptionDto;
+      correct: boolean;
+    }>,
+  ) {
+    const checkedOptions: CheckedOption[] = checkedOptionsToCreate.map(el =>
+      this.createCheckedOptionObject(answerId, el),
+    );
+
+    await this.save(checkedOptions);
   }
 }
