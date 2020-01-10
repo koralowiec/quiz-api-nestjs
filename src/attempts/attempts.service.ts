@@ -27,4 +27,48 @@ export class AttemptsService {
 
     return attempt;
   }
+
+  async getAttempts(): Promise<Attempt[]> {
+    const attempts = await this.attemptRepository.find();
+    return attempts;
+  }
+
+  async endAttemptBySettingPassResult(attemptId: number) {
+    const attemptWithAnswers = await this.attemptRepository.getAttemptWithAnswers(
+      attemptId,
+    );
+
+    if (!attemptWithAnswers) {
+      throw new NotFoundException(
+        `Attempt with id: ${attemptId} doesn't exist`,
+      );
+    }
+
+    const passScore = 0.6;
+
+    return this.calculateIfAttemptShouldBePassedAndUpdatePassResult(
+      attemptWithAnswers,
+      passScore,
+    );
+  }
+
+  private calculateIfAttemptShouldBePassedAndUpdatePassResult(
+    attemptWithAnswers: Attempt,
+    passScore: number,
+  ): Promise<Attempt> {
+    const { answers } = attemptWithAnswers;
+    const numberOfCorrectAnswers = answers.filter(answer => answer.correct)
+      .length;
+
+    if (
+      Math.round((numberOfCorrectAnswers / answers.length) * 100) / 100 >=
+      passScore
+    ) {
+      attemptWithAnswers.passed = true;
+    } else {
+      attemptWithAnswers.passed = false;
+    }
+
+    return attemptWithAnswers.save();
+  }
 }

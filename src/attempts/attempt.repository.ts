@@ -17,4 +17,14 @@ export class AttemptRepository extends Repository<Attempt> {
 
     return attempt.save();
   }
+
+  async getAttemptWithAnswers(attemptId: number): Promise<Attempt> {
+    const query = this.createQueryBuilder('attempt');
+
+    query
+      .leftJoinAndSelect('attempt.answers', 'answer')
+      .where('attempt.id = :id', { id: attemptId });
+
+    return await query.getOne();
+  }
 }

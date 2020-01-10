@@ -6,6 +6,7 @@ import {
   ValidationPipe,
   Get,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { GetUser } from '../users/user.decorator';
 import { User } from '../users/user.entity';
@@ -20,8 +21,8 @@ export class AttemptsController {
   constructor(private readonly attemptsService: AttemptsService) {}
 
   @Get()
-  async getAttempts() {
-    console.warn('not implemented');
+  async getAttempts(): Promise<Attempt[]> {
+    return this.attemptsService.getAttempts();
   }
 
   @Post()
@@ -35,5 +36,10 @@ export class AttemptsController {
   @Get('/:attemptId')
   async getAttempt(@Param('attemptId') attemptId: number): Promise<Attempt> {
     return this.attemptsService.getAttempt(attemptId);
+  }
+
+  @Patch('/:attemptId/passed')
+  async endAttempt(@Param('attemptId', ValidationPipe) attemptId: number) {
+    return this.attemptsService.endAttemptBySettingPassResult(attemptId);
   }
 }
