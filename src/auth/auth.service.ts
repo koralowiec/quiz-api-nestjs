@@ -6,6 +6,7 @@ import { AuthUserDto } from '../users/dto/auth-user.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
+import { ChangeRoleOfUserDto } from '../users/dto/change-role-of-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,5 +38,9 @@ export class AuthService {
     const { username } = authUserDto;
     const user: JwtPayload = { username };
     return this.jwtService.sign(user);
+  }
+
+  changeRoleOfUser(changeRoleDto: ChangeRoleOfUserDto) {
+    return this.usersService.changeRoleOfUser(changeRoleDto);
   }
 }

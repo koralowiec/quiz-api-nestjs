@@ -42,4 +42,8 @@ export class UserRepository extends Repository<User> {
 
     return bcrypt.compare(password, user.password);
   }
+
+  getUserById(userId: number): Promise<User> {
+    return this.findOne(userId);
+  }
 }
