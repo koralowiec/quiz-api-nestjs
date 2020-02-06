@@ -36,6 +36,7 @@ export class Attempt extends BaseEntity {
   @ManyToOne(
     type => Quiz,
     quiz => quiz.attempts,
+    { eager: true },
   )
   quiz: Quiz;
 
@@ -45,6 +46,7 @@ export class Attempt extends BaseEntity {
   @OneToMany(
     type => Answer,
     answer => answer.attempt,
+    { eager: true },
   )
   answers: Answer[];
 }

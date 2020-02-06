@@ -30,9 +30,13 @@ export class OptionsService {
   }
 
   async getOptions(questionId: number): Promise<Option[]> {
-    return await this.optionRepository.find({
+    const options = await this.optionRepository.find({
       where: { questionId },
     });
+
+    console.log('get options', options);
+
+    return options;
   }
 
   async getOptionsByCorrectness(

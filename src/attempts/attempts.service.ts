@@ -28,8 +28,8 @@ export class AttemptsService {
     return attempt;
   }
 
-  async getAttempts(): Promise<Attempt[]> {
-    const attempts = await this.attemptRepository.find();
+  async getAttempts(userId): Promise<Attempt[]> {
+    const attempts = await this.attemptRepository.find({ where: { userId } });
     return attempts;
   }
 

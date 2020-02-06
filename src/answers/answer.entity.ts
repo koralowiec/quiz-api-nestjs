@@ -32,6 +32,7 @@ export class Answer extends BaseEntity {
   @ManyToOne(
     type => Question,
     question => question.answers,
+    { eager: true },
   )
   question: Question;
 
@@ -41,6 +42,7 @@ export class Answer extends BaseEntity {
   @OneToMany(
     type => CheckedOption,
     checkedOption => checkedOption.answer,
+    { eager: true },
   )
   checkedOptions: CheckedOption[];
 }

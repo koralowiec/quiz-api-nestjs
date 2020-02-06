@@ -21,8 +21,8 @@ export class AttemptsController {
   constructor(private readonly attemptsService: AttemptsService) {}
 
   @Get()
-  async getAttempts(): Promise<Attempt[]> {
-    return this.attemptsService.getAttempts();
+  async getAttempts(@GetUser() user: User): Promise<Attempt[]> {
+    return this.attemptsService.getAttempts(user.id);
   }
 
   @Post()

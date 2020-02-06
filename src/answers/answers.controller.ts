@@ -19,7 +19,7 @@ export class AnswersController {
   constructor(private readonly answersService: AnswersService) {}
 
   @Get()
-  async getAnswer() {
+  async getAnswers() {
     console.warn('not implemented');
   }
 
@@ -36,7 +36,7 @@ export class AnswersController {
   }
 
   @Get('/:answerId')
-  async getAnswerById() {
-    console.warn('not implemented');
+  async getAnswerById(@Param('answerId', ParseIntPipe) id: number) {
+    return this.answersService.getAnswerById(id);
   }
 }

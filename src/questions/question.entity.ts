@@ -21,6 +21,7 @@ export class Question extends BaseEntity {
   @OneToMany(
     type => Option,
     option => option.question,
+    { eager: true },
   )
   options: Option[];
 
