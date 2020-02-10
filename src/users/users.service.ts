@@ -46,4 +46,8 @@ export class UsersService {
       role: user.role,
     };
   }
+
+  getUserRole(authUserDto: AuthUserDto): Promise<UserRole> {
+    return this.userRepository.getUserRole(authUserDto);
+  }
 }

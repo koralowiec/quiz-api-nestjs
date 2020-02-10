@@ -14,6 +14,7 @@ import { UsersModule } from './users/users.module';
 import { AttemptsModule } from './attempts/attempts.module';
 import { AnswersModule } from './answers/answers.module';
 import { CheckedOptionsModule } from './checked-options/checked-options.module';
+import { PhotosModule } from './photos/photos.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CheckedOptionsModule } from './checked-options/checked-options.module';
     AttemptsModule,
     AnswersModule,
     CheckedOptionsModule,
+    PhotosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

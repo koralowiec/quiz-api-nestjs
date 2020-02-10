@@ -34,8 +34,11 @@ export class AttemptsController {
   }
 
   @Get('/:attemptId')
-  async getAttempt(@Param('attemptId') attemptId: number): Promise<Attempt> {
-    return this.attemptsService.getAttempt(attemptId);
+  async getAttempt(
+    @GetUser() user: User,
+    @Param('attemptId') attemptId: number,
+  ): Promise<Attempt> {
+    return this.attemptsService.getAttempt(attemptId, user.id);
   }
 
   @Patch('/:attemptId/passed')

@@ -4,9 +4,11 @@ import {
   Column,
   BaseEntity,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Question } from '../questions/question.entity';
 import { Attempt } from '../attempts/attempt.entity';
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Quiz extends BaseEntity {
@@ -30,4 +32,14 @@ export class Quiz extends BaseEntity {
     attempt => attempt.quiz,
   )
   attempts: Attempt[];
+
+  @ManyToOne(
+    type => User,
+    user => user.quizzes,
+    { nullable: true },
+  )
+  creator: User;
+
+  @Column({ nullable: true })
+  creatorId: number;
 }

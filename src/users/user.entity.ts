@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Attempt } from 'src/attempts/attempt.entity';
 import { UserRole } from './user-role.enum';
+import { Quiz } from '../quizzes/quiz.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -32,4 +33,10 @@ export class User extends BaseEntity {
     default: UserRole.NORMAL,
   })
   role: UserRole;
+
+  @OneToMany(
+    type => Quiz,
+    quiz => quiz.creator,
+  )
+  quizzes: Quiz[];
 }

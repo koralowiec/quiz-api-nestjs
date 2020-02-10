@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { NotFoundException, ConflictException } from '@nestjs/common';
 import { TypeOrmErrorCodes } from '../constants/typeorm-error-codes';
+import { UserRole } from './user-role.enum';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -34,16 +35,34 @@ export class UserRepository extends Repository<User> {
 
   async comparePassword(authUserDto: AuthUserDto): Promise<boolean> {
     const { username, password } = authUserDto;
+    const user = await this.getUserByUsername(authUserDto.username);
+
+    return bcrypt.compare(password, user.password);
+  }
+
+  async getUserById(userId: number): Promise<User> {
+    const user = await this.findOne(userId);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User> {
     const user = await this.findOne({ username });
 
     if (!user) {
       throw new NotFoundException();
     }
 
-    return bcrypt.compare(password, user.password);
+    return user;
   }
 
-  getUserById(userId: number): Promise<User> {
-    return this.findOne(userId);
+  async getUserRole(authUserDto: AuthUserDto): Promise<UserRole> {
+    const user = await this.getUserByUsername(authUserDto.username);
+    const { role } = user;
+    return role;
   }
 }

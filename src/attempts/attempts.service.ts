@@ -18,8 +18,10 @@ export class AttemptsService {
     return this.attemptRepository.createAttempt(createAttemptDto, userId);
   }
 
-  async getAttempt(attemptId: number): Promise<Attempt> {
-    const attempt = await this.attemptRepository.findOne(attemptId);
+  async getAttempt(attemptId: number, userId: number): Promise<Attempt> {
+    const attempt = await this.attemptRepository.findOne(attemptId, {
+      where: { userId },
+    });
 
     if (!attempt) {
       throw new NotFoundException(`Attempt with id: ${attemptId} not found`);

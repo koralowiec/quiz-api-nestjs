@@ -26,10 +26,7 @@ export class AuthController {
 
   @Post('/signIn')
   async signIn(@Body(ValidationPipe) authUserDto: AuthUserDto) {
-    const token = await this.authService.signIn(authUserDto);
-    return {
-      token,
-    };
+    return this.authService.signIn(authUserDto);
   }
 
   @Patch('/changeRole')

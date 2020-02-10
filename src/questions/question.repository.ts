@@ -8,11 +8,13 @@ export class QuestionRepository extends Repository<Question> {
     quizId: number,
     questionDto: CreateQuestionDto,
   ): Promise<Question> {
-    const { description } = questionDto;
+    const { description, photoId, snippet } = questionDto;
 
     const question = new Question();
     question.quizId = quizId;
     question.description = description;
+    question.photoId = photoId;
+    question.snippet = snippet;
 
     return await question.save();
   }
