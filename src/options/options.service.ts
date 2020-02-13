@@ -34,8 +34,6 @@ export class OptionsService {
       where: { questionId },
     });
 
-    console.log('get options', options);
-
     return options;
   }
 

@@ -11,7 +11,6 @@ export class OptionRepository extends Repository<Option> {
     const option = this.createOptionObject(questionId, optionDto);
 
     const savedOption = await option.save();
-    console.log('savedOption', savedOption);
     return savedOption;
   }
 
@@ -30,7 +29,6 @@ export class OptionRepository extends Repository<Option> {
     questionId: number,
     optionDto: CreateOptionDto,
   ): Option {
-    console.log('optionDto', optionDto);
     const { text, isCorrect } = optionDto;
 
     const option = new Option();
@@ -38,7 +36,6 @@ export class OptionRepository extends Repository<Option> {
     option.isCorrect = isCorrect;
     option.questionId = questionId;
 
-    console.log('option', option);
     return option;
   }
 }

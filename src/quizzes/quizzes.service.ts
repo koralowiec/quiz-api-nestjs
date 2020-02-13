@@ -13,12 +13,8 @@ export class QuizzesService {
     private readonly quizRepository: QuizRepository,
   ) {}
 
-  async getQuizzes(ownerablility: boolean, creator: User): Promise<Quiz[]> {
-    if (!ownerablility) {
-      return this.quizRepository.find();
-    }
-
-    return this.quizRepository.find({ where: { creator } });
+  async getQuizzes(creator: User, queries): Promise<Quiz[]> {
+    return this.quizRepository.getQuizByOwnerAndOnlyAvailable(creator, queries);
   }
 
   async getQuizById(id: number): Promise<Quiz> {
@@ -53,5 +49,14 @@ export class QuizzesService {
     await quizToUpdate.save();
 
     return quizToUpdate;
+  }
+
+  async updateQuizAvailability(
+    quizId: number,
+    available: boolean,
+  ): Promise<Quiz> {
+    const quiz = await this.getQuizById(quizId);
+    quiz.available = available;
+    return quiz.save();
   }
 }

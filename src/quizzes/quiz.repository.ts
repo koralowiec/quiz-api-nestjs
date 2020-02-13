@@ -17,4 +17,20 @@ export class QuizRepository extends Repository<Quiz> {
 
     return quiz;
   }
+
+  getQuizByOwnerAndOnlyAvailable(creator: User, queries): Promise<Quiz[]> {
+    const { ownerablility, onlyAvailable } = queries;
+
+    const query = this.createQueryBuilder('quiz');
+
+    if (ownerablility) {
+      query.andWhere('quiz.creatorId = :creatorId', { creatorId: creator.id });
+    }
+
+    if (onlyAvailable) {
+      query.andWhere('quiz.available = true');
+    }
+
+    return query.getMany();
+  }
 }

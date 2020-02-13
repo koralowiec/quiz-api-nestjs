@@ -11,6 +11,7 @@ import {
   Put,
   UseGuards,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { Quiz } from './quiz.entity';
 import { QuizzesService } from './quizzes.service';
@@ -32,9 +33,11 @@ export class QuizzesController {
   @UseGuards(AuthGuard('jwt'))
   async getQuizzes(
     @Query('ownerablility', new ParseBoolPipe()) ownerablility: boolean,
+    @Query('onlyAvailable', new ParseBoolPipe()) onlyAvailable: boolean,
     @GetUser() user: User | undefined,
   ): Promise<Quiz[]> {
-    return await this.quizzesService.getQuizzes(ownerablility, user);
+    const queries = { ownerablility, onlyAvailable };
+    return await this.quizzesService.getQuizzes(user, queries);
   }
 
   @Post()
@@ -64,5 +67,13 @@ export class QuizzesController {
     @Body() updateQuizDto: UpdateQuizDto,
   ): Promise<Quiz> {
     return await this.quizzesService.updateQuiz(id, updateQuizDto);
+  }
+
+  @Patch('/:quizId/available')
+  updateAvailability(
+    @Param('quizId', ParseIntPipe) quizId: number,
+    @Body('available') available: boolean,
+  ) {
+    return this.quizzesService.updateQuizAvailability(quizId, available);
   }
 }

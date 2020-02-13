@@ -3,10 +3,16 @@ import { QuestionRepository } from './question.repository';
 import { Question } from './question.entity';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { OptionsService } from '../options/options.service';
 
 @Injectable()
 export class QuestionsService {
-  constructor(private readonly questionRepository: QuestionRepository) {}
+  constructor(
+    @InjectRepository(QuestionRepository)
+    private readonly questionRepository: QuestionRepository,
+    private readonly optionsService: OptionsService,
+  ) {}
 
   async getQuestions(quizId: number): Promise<Question[]> {
     return await this.questionRepository.find({ where: { quizId } });
@@ -33,7 +39,20 @@ export class QuestionsService {
     quizId: number,
     questionDto: CreateQuestionDto,
   ): Promise<Question> {
-    return await this.questionRepository.createQuestion(quizId, questionDto);
+    const question = await this.questionRepository.createQuestion(
+      quizId,
+      questionDto,
+    );
+
+    if (questionDto.options) {
+      const options = await this.optionsService.createOptions(
+        question.id,
+        questionDto.options,
+      );
+      question.options = options;
+    }
+
+    return question;
   }
 
   async deleteQuestion(quizId: number, questionId: number): Promise<Question> {

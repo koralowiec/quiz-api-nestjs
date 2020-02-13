@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsOptional, IsNumber, IsString } from 'class-validator';
+import { CreateOptionDto } from '../../options/dto/create-option.dto';
 
 export class CreateQuestionDto {
   @IsNotEmpty()
@@ -11,4 +12,7 @@ export class CreateQuestionDto {
   @IsOptional()
   @IsNumber()
   photoId: number;
+
+  @IsOptional()
+  options: CreateOptionDto[];
 }

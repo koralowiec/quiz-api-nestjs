@@ -21,6 +21,9 @@ export class Quiz extends BaseEntity {
   @Column('text')
   description: string;
 
+  @Column({ default: false })
+  available: boolean;
+
   @OneToMany(
     type => Question,
     question => question.quiz,
